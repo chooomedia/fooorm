@@ -36,25 +36,13 @@ defined( 'ABSPATH' ) or die('Hey Dude - whats your plan? No Access to this Plugi
 class Fooorm
 {
 
-    function __construct() {
-        add_action( 'init', array( $this, 'custom_post_type') );
-    }
-
     function register() {
         add_action( 'admin_enque_scripts', array($this, 'enqueue') ); //loads inside admin-dashboard
        // add_action( 'wp_enque_scripts', array($this, 'enqueue') ); //loads this on frontend
     }
 
-    function activate() {
-       // generated a CPT
-       $this->custom_post_type();
-       // flush rewrite rules
-       flush_rewrite_rules();
-    }
-
-    function deactivate() {
-        // flush rewite rules
-        flush_rewrite_rules();
+    protected function create_post_type() {
+        add_action( 'init', array( $this, 'custom_post_type') );
     }
 
     function custom_post_type() {
@@ -78,7 +66,9 @@ if (class_exists( 'Fooorm') ) {
 
 
 // activation
-register_activation_hook( __FILE__, array( $fooorm, 'activate' ) );
+require_once plugin_dir_path( __FILE__ . 'inc/fooorm-activate.php');
+register_activation_hook( __FILE__, array( 'FooormActivate', 'activate' ) );
 
 // deactivation
-register_deactivation_hook( __FILE__, array( $fooorm, 'deactivate' ) );
+require_once plugin_dir_path( __FILE__ . 'inc/fooorm-deactivate.php');
+register_deactivation_hook( __FILE__, array( 'FooormDeactivate', 'deactivate' ) );
