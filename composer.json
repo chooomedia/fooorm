@@ -1,0 +1,17 @@
+{
+    "name": "chooo/fooorm",
+    "description": "Fooorms the user-friendly contact-form-plugin for wordpress",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "chooomedia",
+            "email": "christopher@chooomedia.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {"Inc\\": "./inc"}
+    }
+}

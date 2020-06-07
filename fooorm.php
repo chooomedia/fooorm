@@ -31,44 +31,32 @@
     Copyright 2005-2015 Automattic, Inc.
  */
 
-defined( 'ABSPATH' ) or die('Hey Dude - whats your plan? No Access to this Plugin for ya!');
+defined( 'ABSPATH' ) or die('Hey Dude - whats your plan? No Access to this Plugin for you :D!');
 
-class Fooorm
-{
-
-    function register() {
-        add_action( 'admin_enque_scripts', array($this, 'enqueue') ); //loads inside admin-dashboard
-       // add_action( 'wp_enque_scripts', array($this, 'enqueue') ); //loads this on frontend
-    }
-
-    protected function create_post_type() {
-        add_action( 'init', array( $this, 'custom_post_type') );
-    }
-
-    function custom_post_type() {
-        register_post_type( 'fooorm', array(
-            'public' => true,
-            'menu-icon' => 'dashicons-feedback',
-            'label' => 'Fooorm')
-        );
-    }
-
-    function enqueue() {
-        // enque all scripts
-        wp_enqueue_style( 'fooorm-style', plugins_url( 'assets/css/style.css', __FILE__ ) );
-    }
+if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
+    require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
-if (class_exists( 'Fooorm') ) {
-    $fooorm = new Fooorm();
-    $fooorm->register();
+define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PLUGIN', plugin_basename( __FILE__ ) );
+
+
+use Inc\Base\Activate;
+use Inc\Base\Deactivate;
+
+
+function activate_fooorm() {
+    Activate::activate();
 }
 
+function deactivate_fooorm() {
+    Deactivate::deactivate();
+}
 
-// activation
-require_once plugin_dir_path( __FILE__ . 'inc/fooorm-activate.php');
-register_activation_hook( __FILE__, array( 'FooormActivate', 'activate' ) );
+register_activation_hook( __FILE__ , 'activate_fooorm' );
+register_activation_hook( __FILE__ , 'deactivate_fooorm' );
 
-// deactivation
-require_once plugin_dir_path( __FILE__ . 'inc/fooorm-deactivate.php');
-register_deactivation_hook( __FILE__, array( 'FooormDeactivate', 'deactivate' ) );
+if ( class_exists( 'Inc\\Init' ) ) {
+    Inc\Init::register_services();
+}

@@ -2,8 +2,9 @@
 /**
  * @package Fooorm
  */
+namespace Inc\Base;
 
- class FooormDeactivate
+ class Deactivate
  {
     public static function deactivate() {
         flush_rewrite_rules();
