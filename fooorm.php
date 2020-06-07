@@ -31,31 +31,27 @@
     Copyright 2005-2015 Automattic, Inc.
  */
 
+// If this file is called firectly, abort!!!
 defined( 'ABSPATH' ) or die('Hey Dude - whats your plan? No Access to this Plugin for you :D!');
 
+// Require once the Composer Autoload
 if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
     require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
-define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'PLUGIN', plugin_basename( __FILE__ ) );
 
-
-use Inc\Base\Activate;
-use Inc\Base\Deactivate;
-
-
+// The code that runs during plugin activation
 function activate_fooorm() {
-    Activate::activate();
+    Inc\Base\Activate::activate();
 }
-
-function deactivate_fooorm() {
-    Deactivate::deactivate();
-}
-
 register_activation_hook( __FILE__ , 'activate_fooorm' );
+
+// The code that runs during plugin deactivation
+function deactivate_fooorm() {
+    Inc\Base\Deactivate::deactivate();
+}
 register_activation_hook( __FILE__ , 'deactivate_fooorm' );
+
 
 if ( class_exists( 'Inc\\Init' ) ) {
     Inc\Init::register_services();

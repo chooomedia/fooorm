@@ -2,12 +2,14 @@
 
 namespace inc\Pages;
 
+use \Inc\Base\BaseController;
+
 /**
  * 
  * 
  */
 
- class Admin
+ class Admin extends BaseController
  {
 
    public function register() {
@@ -19,6 +21,6 @@ namespace inc\Pages;
    }
 
    public function admin_index() {
-         require_once PLUGIN_PATH . 'templates/admin.php';
+         require_once $this->plugin_path . 'templates/admin.php';
    }
 }
